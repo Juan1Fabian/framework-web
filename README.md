@@ -1,68 +1,87 @@
-# CodeIgniter 4 Application Starter
 
-## What is CodeIgniter?
+# CRUD Productos - CodeIgniter 4
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Descripción
+Proyecto CRUD para gestionar productos, categorías y expedientes usando **CodeIgniter 4**.  
+Permite crear, leer, actualizar y eliminar productos, con soporte para subir y mostrar imágenes y seleccionar categorías.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Requisitos
+- PHP
+- MySQL o MariaDB  
+- Composer  
+- Laragon
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Instalación
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+1. Clonar el repositorio o copiar los archivos a tu servidor local:
 
-## Installation & updates
+```bash
+git clone git@github.com:Juan1Fabian/framework-web.git
+```
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+2. Configurar la base de datos en `Framework-Web/.env`.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+3. Crear la base de datos y las tablas ejecutando el SQL:
 
-## Setup
+```sql
+CREATE DATABASE Crud_Productos;
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+USE Crud_Productos;
 
-## Important Change with index.php
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2),
+    stock INT NOT NULL,
+    imagen VARCHAR(255),
+    categoria_id INT,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
+);
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+4. Instalar dependencias:
 
-**Please** read the user guide for a better explanation of how CI4 works!
+```bash
+composer
+```
 
-## Repository Management
+5. Configurar el entorno editando `.env` y definiendo la base de datos.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+## Uso
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+- Acceder a: `http://https://framework-web.test/productos`  
+- Funcionalidades:  
+  - **Agregar producto**: nombre, descripción, precio, stock, imagen y categoría.  
+  - **Editar producto**: cambiar datos y actualizar imagen.  
+  - **Eliminar producto**: elimina el producto y su imagen.  
+  - **Ver productos**: muestra todos los productos con su categoría e imagen.
 
-## Server Requirements
+## Estructura del proyecto
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+```
+app/
+ ├─ Controllers/
+ │    └─ Productos.php
+ ├─ Models/
+ │    ├─ ProductoModel.php
+ │    └─ CategoriaModel.php
+ ├─ Views/
+ │    ├─ layout/
+ │    │    ├─ header.php
+ │    │    └─ footer.php
+ │    └─ productos/
+ │         ├─ index.php
+ │         ├─ crear.php
+ │         └─ editar.php
+public/
+ └─ uploads/   (para las imágenes de productos)
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+## AUTOR:
+# JUAN FABIAN TRUCIOS QUISPE
